@@ -14,21 +14,29 @@ export class AuthService{
     
     async createAccount({email, password, name}){
         try {
-            const userAccount = await this.account.create(ID.unique(), email, password, name)
+            const userId = ID.unique();
+            const userAccount = await this.account.create(
+                userId,
+                 email,
+                password,
+                name
+                )
             if (userAccount) {
                 return this.login({email, password})
             }else{
                 return userAccount
             }
         } catch(error){
-            throw error
+            console.error("AuthService :: Signup() ::", error.message)
+            throw new Error("Login Failed. Server Error.")
         }
     }
     async login({email, password}){
         try {
             return await this.account.createEmailPasswordSession(email, password)
         } catch (error) {
-            throw error
+            console.error("AuthService :: login() ::", error.message)
+            throw new Error("Login Failed. Please check your credentials.")
         }
     }
     async getCurrentUser(){
