@@ -1,11 +1,11 @@
 import React from 'react'
 
-function AllPost() {
+function Logo() {
   return (
     <div>
-      all post
+      Logo
     </div>
   )
 }
 
-export default AllPost
+export default Logo
