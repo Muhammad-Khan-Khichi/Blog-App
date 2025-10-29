@@ -70,7 +70,7 @@ function Login() {
               placeholder="Password"
             />
             <Button type="submit" className="w-full">
-              Sign In{""}
+              Sign In
             </Button>
           </div>
         </form>
