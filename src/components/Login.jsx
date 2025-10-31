@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import Button from "./Button";
 import Input from "./input";
-// import Logo from "./Logo";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -29,50 +28,61 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center w-full">
-      <div
-        className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
-      >
-        <div className="mb-2 flex justify-center">
-          <span className="inline-block w-full max-w-[100px]">
-            <Logo width="100%" />
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl">
+        {/* Logo */}
+        <div className="flex justify-center mb-4">
+          <span className="text-4xl font-extrabold text-indigo-600 tracking-widest">
+            MK
           </span>
         </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
-          SignIn to your account
+
+        {/* Heading */}
+        <h2 className="text-center text-2xl font-bold text-gray-800 mb-2">
+          Sign In to Your Account
         </h2>
-        <p className="mt-2 text-center text-2xl font-bold leading-tight">
-          Don&apos;t have any account?&nbsp;
+
+        <p className="text-center text-gray-600 text-sm mb-6">
+          Don’t have an account?{" "}
           <Link
             to="/signup"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
+            className="text-indigo-600 font-medium hover:underline hover:text-indigo-500 transition-all"
           >
-            Sing Up
+            Sign Up
           </Link>
         </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-        <form onSubmit={handleSubmit(login)} className="mt-8">
-          <div className="space-y-5">
-            <Input
-              {...register("email", {
-                required: true,
-              })}
-              label="Email: "
-              placeholder="Email Address"
-              type="email"
-            />
-            <Input
-              {...register("password", {
-                required: true,
-              })}
-              label="Password"
-              type="password"
-              placeholder="Password"
-            />
-            <Button type="submit" className="w-full">
-              Sign In
-            </Button>
-          </div>
+
+        {/* Error Message */}
+        {error && (
+          <p className="text-red-500 text-center bg-red-100 py-2 rounded-lg mb-4">
+            {error}
+          </p>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit(login)} className="space-y-5">
+          <Input
+            {...register("email", { required: true })}
+            label="Email"
+            placeholder="Enter your email"
+            type="email"
+            className="w-full"
+          />
+
+          <Input
+            {...register("password", { required: true })}
+            label="Password"
+            placeholder="Enter your password"
+            type="password"
+            className="w-full"
+          />
+
+          <Button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-indigo-300/30"
+          >
+            Sign In
+          </Button>
         </form>
       </div>
     </div>
