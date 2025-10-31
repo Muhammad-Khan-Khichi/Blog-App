@@ -1,10 +1,7 @@
-// import { Client, Databases, Storage, Query, ID } from "appwrite";
 import { Client, Databases, Storage, Query, ID } from "appwrite";
 
-// import conf from "../conf/co
 import conf from "../conf/conf.js"
 
-console.log("Loaded conf:", conf);
 
 class Service {
   client = new Client();
@@ -12,9 +9,6 @@ class Service {
   bucket;
 
   constructor() {
-    console.log("Appwrite URL:", conf.appwriteUrl);
-    console.log("Project ID:", conf.appwriteProjectId);
-
     this.client
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
