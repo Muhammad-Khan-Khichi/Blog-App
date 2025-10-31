@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import Button from "./Button";
-import Input from "./input";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { login as authLogin } from "../store/authSlice";
+import { FiMail, FiLock } from "react-icons/fi";
 
 function Login() {
   const navigate = useNavigate();
@@ -60,23 +60,36 @@ function Login() {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit(login)} className="space-y-5">
-          <Input
-            {...register("email", { required: true })}
-            label="Email"
-            placeholder="Enter your email"
-            type="email"
-            className="w-full"
-          />
+        <form onSubmit={handleSubmit(login)} className="space-y-6">
+          {/* Email */}
+          <div className="relative">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <FiMail className="absolute left-3 top-9 text-indigo-500 text-lg pointer-events-none" />
+            <input
+              {...register("email", { required: true })}
+              type="email"
+              placeholder="Enter your email"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-gray-800 placeholder-gray-400"
+            />
+          </div>
 
-          <Input
-            {...register("password", { required: true })}
-            label="Password"
-            placeholder="Enter your password"
-            type="password"
-            className="w-full"
-          />
+          {/* Password */}
+          <div className="relative">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <FiLock className="absolute left-3 top-9 text-indigo-500 text-lg pointer-events-none" />
+            <input
+              {...register("password", { required: true })}
+              type="password"
+              placeholder="Enter your password"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-gray-800 placeholder-gray-400"
+            />
+          </div>
 
+          {/* Submit Button */}
           <Button
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-indigo-300/30"
