@@ -10,11 +10,13 @@ import { FiMail, FiLock } from "react-icons/fi";
 function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // 👈 Added loading state
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   const login = async (data) => {
     setError("");
+    setLoading(true); // 👈 Disable button and show loading text
     try {
       const session = await authService.login(data);
       if (session) {
@@ -24,6 +26,8 @@ function Login() {
       }
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false); // 👈 Re-enable button
     }
   };
 
@@ -92,9 +96,14 @@ function Login() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-indigo-300/30"
+            disabled={loading} // 👈 Disable while loading
+            className={`w-full ${
+              loading
+                ? "bg-indigo-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-500"
+            } text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-indigo-300/30`}
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"} {/* 👈 Change button text */}
           </Button>
         </form>
       </div>

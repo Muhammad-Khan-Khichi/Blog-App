@@ -10,11 +10,13 @@ import { FiUser, FiMail, FiLock } from "react-icons/fi";
 function Signup() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // 👈 Added state
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   const create = async (data) => {
     setError("");
+    setLoading(true); // 👈 Disable button & show loading
     try {
       const userData = await authService.createAccount(data);
       if (userData) {
@@ -24,6 +26,8 @@ function Signup() {
       }
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false); // 👈 Re-enable button
     }
   };
 
@@ -105,9 +109,14 @@ function Signup() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-indigo-300/30"
+            disabled={loading} // 👈 Disable button when loading
+            className={`w-full ${
+              loading
+                ? "bg-indigo-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-500"
+            } text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-indigo-300/30`}
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"} {/* 👈 Change text */}
           </Button>
         </form>
       </div>
