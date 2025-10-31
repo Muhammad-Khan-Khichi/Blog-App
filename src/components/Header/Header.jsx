@@ -43,8 +43,8 @@ function Header() {
       icon: <FiFileText className="inline mr-2 text-indigo-500" />,
     },
     {
-      name: "Add Posts",
-      slug: "/add-posts",
+      name: "Add Post",
+      slug: "/add-post",
       active: authStatus,
       icon: <FiPlusCircle className="inline mr-2 text-indigo-500" />,
     },

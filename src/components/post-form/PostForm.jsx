@@ -1,7 +1,6 @@
 import React, {useCallback} from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Button"
-import Input from "../input"
 import RTE from "../RTE"
 import Select from "../container/Select"
 import appwriteService from "../../appwrite/config"
