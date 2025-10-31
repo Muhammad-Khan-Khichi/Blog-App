@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import Button from "./Button";
 import Input from "./input";
-import Logo from "./Logo";
+// import Logo from "./Logo";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

@@ -1,12 +1,20 @@
+// import { Client, Databases, Storage, Query, ID } from "appwrite";
 import { Client, Databases, Storage, Query, ID } from "appwrite";
-import conf from "../conf/conf";
 
-export class Service {
+// import conf from "../conf/co
+import conf from "../conf/conf.js"
+
+console.log("Loaded conf:", conf);
+
+class Service {
   client = new Client();
   databases;
   bucket;
 
   constructor() {
+    console.log("Appwrite URL:", conf.appwriteUrl);
+    console.log("Project ID:", conf.appwriteProjectId);
+
     this.client
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
@@ -95,37 +103,30 @@ export class Service {
 
   async uploadFile(file) {
     try {
-        return await this.bucket.createFile(
-            conf.appwriteBucketId,
-            ID.unique(),
-            file
-        )
+      return await this.bucket.createFile(
+        conf.appwriteBucketId,
+        ID.unique(),
+        file
+      );
     } catch (error) {
       console.log("Appwrite service :: uploadFile() ::", error);
       return false;
     }
   }
 
-   async deleteFile(fileId) {
+  async deleteFile(fileId) {
     try {
-        return await this.bucket.deleteFile(
-            conf.appwriteBucketId,
-            fileId
-        )
+      return await this.bucket.deleteFile(conf.appwriteBucketId, fileId);
     } catch (error) {
       console.log("Appwrite service :: deleteFile() ::", error);
       return false;
     }
   }
 
-  getFilePreview(fileId){
-    return this.bucket.getFilePreview(
-        conf.appwriteBucketId,
-        fileId
-    ).href
+  getFilePreview(fileId) {
+    return this.bucket.getFilePreview(conf.appwriteBucketId, fileId).href;
   }
 }
 
-
-const service = new Service()
+const service = new Service();
 export default service;
