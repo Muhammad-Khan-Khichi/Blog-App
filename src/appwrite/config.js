@@ -1,7 +1,5 @@
-import { Client, Databases, Storage, Query, ID } from "appwrite";
-
-import conf from "../conf/conf.js"
-
+import { Client, Databases, Storage, Query, ID, Permission, Role } from "appwrite";
+import conf from "../conf/conf.js";
 
 class Service {
   client = new Client();
@@ -12,10 +10,12 @@ class Service {
     this.client
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
+
     this.databases = new Databases(this.client);
     this.bucket = new Storage(this.client);
   }
 
+  // 🧩 Get a single post by slug
   async getPost(slug) {
     try {
       return await this.databases.getDocument(
@@ -24,11 +24,12 @@ class Service {
         slug
       );
     } catch (error) {
-      console.log("Appwrite service :: getPost() ::", error);
+      console.error("Appwrite service :: getPost() ::", error);
       return false;
     }
   }
 
+  // 🧩 Get all active posts
   async getPosts(queries = [Query.equal("status", "active")]) {
     try {
       return await this.databases.listDocuments(
@@ -37,11 +38,12 @@ class Service {
         queries
       );
     } catch (error) {
-      console.log("Appwrite service :: getPosts() ::", error);
+      console.error("Appwrite service :: getPosts() ::", error);
       return false;
     }
   }
 
+  // 🧩 Create new post
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
       return await this.databases.createDocument(
@@ -54,14 +56,19 @@ class Service {
           featuredImage,
           status,
           userId,
-        }
+        },
+        [
+          Permission.read(Role.any()),         // anyone can read
+          Permission.write(Role.user(userId)), // only creator can edit/delete
+        ]
       );
     } catch (error) {
-      console.log("Appwrite service :: createPost() ::", error);
+      console.error("Appwrite service :: createPost() ::", error);
       return false;
     }
   }
 
+  // 🧩 Update post
   async updatePost(slug, { title, content, featuredImage, status }) {
     try {
       return await this.databases.updateDocument(
@@ -76,11 +83,12 @@ class Service {
         }
       );
     } catch (error) {
-      console.log("Appwrite service :: updatePost() ::", error);
+      console.error("Appwrite service :: updatePost() ::", error);
       return false;
     }
   }
 
+  // 🧩 Delete post
   async deletePost(slug) {
     try {
       await this.databases.deleteDocument(
@@ -90,33 +98,40 @@ class Service {
       );
       return true;
     } catch (error) {
-      console.log("Appwrite service :: deletePost() ::", error);
+      console.error("Appwrite service :: deletePost() ::", error);
       return false;
     }
   }
 
-  async uploadFile(file) {
+  // 🧩 Upload file with proper permissions
+  async uploadFile(file, userId) {
     try {
       return await this.bucket.createFile(
         conf.appwriteBucketId,
         ID.unique(),
-        file
+        file,
+        [
+          Permission.read(Role.any()),        // anyone can view
+          Permission.write(Role.user(userId)) // only uploader can modify/delete
+        ]
       );
     } catch (error) {
-      console.log("Appwrite service :: uploadFile() ::", error);
+      console.error("Appwrite service :: uploadFile() ::", error);
       return false;
     }
   }
 
+  // 🧩 Delete file
   async deleteFile(fileId) {
     try {
       return await this.bucket.deleteFile(conf.appwriteBucketId, fileId);
     } catch (error) {
-      console.log("Appwrite service :: deleteFile() ::", error);
+      console.error("Appwrite service :: deleteFile() ::", error);
       return false;
     }
   }
 
+  // 🧩 Get file preview URL
   getFilePreview(fileId) {
     return this.bucket.getFilePreview(conf.appwriteBucketId, fileId).href;
   }
