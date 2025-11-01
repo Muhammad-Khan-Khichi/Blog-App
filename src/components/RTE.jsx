@@ -10,61 +10,28 @@ function RTE({ name, control, label, defaultValue = "" }) {
         name={name || "content"}
         control={control}
         render={({ field: { onChange } }) => (
-          <Editor
-            initialValue={defaultValue}
-            init={{
-              branding: false,
-              height: 500,
-              menubar: true,
-              plugins: [
-                "a11ychecker",
-                "accordion",
-                "advlist",
-                "anchor",
-                "autolink",
-                "autosave",
-                "charmap",
-                "code",
-                "codesample",
-                "directionality",
-                "emoticons",
-                "exportpdf",
-                "exportword",
-                "fullscreen",
-                "help",
-                "image",
-                "importcss",
-                "importword",
-                "insertdatetime",
-                "link",
-                "lists",
-                "markdown",
-                "math",
-                "media",
-                "nonbreaking",
-                "pagebreak",
-                "preview",
-                "quickbars",
-                "save",
-                "searchreplace",
-                "table",
-                "visualblocks",
-                "visualchars",
-                "wordcount",
-              ],
-              toolbar:
-                "undo redo | accordion accordionremove | " +
-                "importword exportword exportpdf | math | " +
-                "blocks fontfamily fontsize | bold italic underline strikethrough | " +
-                "align numlist bullist | link image | table media | " +
-                "lineheight outdent indent | forecolor backcolor removeformat | " +
-                "charmap emoticons | code fullscreen preview | save print | " +
-                "pagebreak anchor codesample | ltr rtl",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-            }}
-            onEditorChange={onChange}
-          />
+ <Editor
+      apiKey='v3bozu9ircb1wgdidhpsvfk4hgsmn1vowr5uy7ppp56g1gcp'
+      init={{
+        plugins: [
+          // Core editing features
+          'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+          // Your account includes a free trial of TinyMCE premium features
+          // Try the most popular premium features until Nov 15, 2025:
+          'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+        ],
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+          { value: 'First.Name', title: 'First Name' },
+          { value: 'Email', title: 'Email' },
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+        uploadcare_public_key: '9deaa6f5ff60ca57d613',
+      }}
+      initialValue="Welcome to TinyMCE!"
+    />
         )}
       />
     </div>
