@@ -82,7 +82,7 @@ function Header() {
                     navigate(item.slug);
                     setMenuOpen(false);
                   }}
-                  className="flex items-center justify-center md:justify-start w-full px-4 py-2 rounded-full bg-slate-700 text-gray-200 hover:bg-indigo-600 hover:text-white transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="flex items-center justify-center md:justify-start w-full px-4 py-2 rounded-full cursor-pointer bg-slate-700 text-gray-200 hover:bg-indigo-600 hover:text-white hover:shadow-indigo-300/30 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95"
                 >
                   {item.icon}
                   {item.name}

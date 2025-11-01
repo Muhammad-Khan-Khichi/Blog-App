@@ -4,7 +4,7 @@ import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-slate-800 via-indigo-900 to-slate-800 text-gray-200 mt-10 shadow-inner">
+    <footer className="bg-gradient-to-r from-slate-800 via-indigo-900 to-slate-800 text-gray-200 mt-0 shadow-inner">
       <div className="max-w-screen-xl mx-auto px-6 py-10">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-gray-600 pb-6 mb-6">
@@ -30,7 +30,7 @@ function Footer() {
             </li>
             <li>
               <Link
-                to="/about"
+                to="/"
                 className="hover:text-indigo-400 transition duration-300"
               >
                 About
@@ -38,7 +38,7 @@ function Footer() {
             </li>
             <li>
               <Link
-                to="/contact"
+                to="/"
                 className="hover:text-indigo-400 transition duration-300"
               >
                 Contact
@@ -46,7 +46,7 @@ function Footer() {
             </li>
             <li>
               <Link
-                to="/github"
+                to="/"
                 className="hover:text-indigo-400 transition duration-300"
               >
                 Github
