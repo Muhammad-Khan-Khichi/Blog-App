@@ -74,6 +74,7 @@ function Login() {
             <input
               {...register("email", { required: true })}
               type="email"
+              autoComplete="off"
               placeholder="Enter your email"
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-gray-800 placeholder-gray-400"
             />
