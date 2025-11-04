@@ -103,7 +103,7 @@ class Service {
     }
   }
 
-  // 🧩 Upload file with proper permissions
+  // 🧩 Create or upload file with proper permissions
   async uploadFile(file, userId) {
     try {
       return await this.bucket.createFile(
@@ -116,7 +116,14 @@ class Service {
         ]
       );
     } catch (error) {
-      console.error("Appwrite service :: uploadFile() ::", error);
+      console.error("Appwrite service :: createFile() ::", error);
+      if (error.message.includes("not authorized")) {
+        console.warn(
+          "⚠️ The current user may not be logged in or your bucket permissions are too restrictive.\n" +
+          "Make sure the user has an active session (Account.createEmailSession or Account.createAnonymousSession)\n" +
+          "and that your bucket allows 'Create' for Users in the Appwrite Console."
+        );
+      }
       return false;
     }
   }
