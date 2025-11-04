@@ -6,22 +6,24 @@ export class AuthService {
   account;
 
   constructor() {
+    // Initialize Appwrite client
     this.client
       .setEndpoint(conf.appwriteUrl) // Your Appwrite endpoint
       .setProject(conf.appwriteProjectId); // Your project ID
 
+    // Initialize Account service with the same client
     this.account = new Account(this.client);
   }
 
-  // 🧩 Create a new account
+  // 🧩 Create a new account and auto-login
   async createAccount({ email, password, name }) {
     try {
-      // Create user account
+      // Create the user account
       const userAccount = await this.account.create(ID.unique(), email, password, name);
 
-      // Automatically log in user after signup
+      // Auto-login after signup
       if (userAccount) {
-        return await this.login({ email, password });
+        await this.login({ email, password });
       }
 
       return userAccount;
@@ -31,24 +33,34 @@ export class AuthService {
     }
   }
 
-  // 🧩 Login user (handles existing session safely)
+  // 🧩 Login user (creates a session)
   async login({ email, password }) {
     try {
-      // Check if a session already exists
+      // Ensure no existing session is active
       try {
         const current = await this.account.get();
         if (current) {
-          await this.account.deleteSession("current"); // Safely end current session
+          await this.account.deleteSession("current");
         }
       } catch (_) {
-        // No active session — safe to continue
+        // No active session, safe to continue
       }
 
-      // Create new session
+      // Create new session (Appwrite v1.5+)
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {
       console.error("AuthService :: login() ::", error);
       throw new Error(error?.message || "Login failed. Please check credentials.");
+    }
+  }
+
+  // 🧩 Create anonymous session (useful for guest uploads)
+  async createAnonymousSession() {
+    try {
+      return await this.account.createAnonymousSession();
+    } catch (error) {
+      console.error("AuthService :: createAnonymousSession() ::", error);
+      throw new Error(error?.message || "Failed to create anonymous session.");
     }
   }
 
@@ -58,22 +70,21 @@ export class AuthService {
       const user = await this.account.get();
       return user || null;
     } catch (error) {
-      // No active session or invalid token
       console.warn("AuthService :: getCurrentUser() :: No active session");
       return null;
     }
   }
 
-  // 🧩 Logout current user
+  // 🧩 Logout current session
   async logout() {
     try {
-      await this.account.deleteSession("current"); // end only current session
+      await this.account.deleteSession("current");
     } catch (error) {
       console.error("AuthService :: logout() ::", error);
     }
   }
 
-  // 🧩 Logout all sessions (optional helper)
+  // 🧩 Logout from all sessions
   async logoutAll() {
     try {
       await this.account.deleteSessions();
@@ -83,5 +94,6 @@ export class AuthService {
   }
 }
 
+// ✅ Export a single shared instance
 const authService = new AuthService();
 export default authService;

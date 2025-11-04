@@ -139,9 +139,11 @@ class Service {
   }
 
   // 🧩 Get file preview URL
-  getFilePreview(fileId) {
-    return this.bucket.getFilePreview(conf.appwriteBucketId, fileId).href;
-  }
+getFilePreview(fileId) {
+  if (!fileId) return "";
+  return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+}
+
 }
 
 const service = new Service();
